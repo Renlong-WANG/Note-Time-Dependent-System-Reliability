@@ -1,0 +1,363 @@
+\documentclass[../Note.tex]{subfiles}
+\usepackage{bm}
+
+\begin{document}
+
+\chapter{Discrete Parameter Markov Chain} 
+
+\begin{definition}[Stochastic Process]
+    A stochastic process $\bm{X} = \{X(t), t \in \mathcal{T}\}$ is a collection of random variables. That is, for each $t$ in the index set $\mathcal{T}$, $X(t)$ is a random variable.
+\end{definition}
+
+The index is often interpreted as \textit{time} and, as a result, we refer to $X(t)$ as the \textit{state} of the process at time $t$. The \textit{state space} of a stochastic process is defined as the set of all possible values that the random variables $X(t)$ can assume. For instance,
+\begin{itemize}
+    \item $\{X(t), t = 0, 1, \dots\}$ is a discrete-time stochastic process indexed by the nonnegative integers;
+    \item $\{X(t), t \geq 0\}$ is a continuous-time stochastic process indexed by the nonnegative real numbers. 
+\end{itemize}
+Thus, a stochastic process is a family of random variables that describes the system evolution through time of some (physical) process. This gives the conceptual fundation for \textit{Time-Dependent System Reliability}.
+
+\textit{Markov Property} states that given present state, forecast of future is independent of past, i.e.,
+\[
+    \mathrm{P}\{\text{Futhure | \text{Present, Past}}\} = \mathrm{P}\{\text{Futhure | Present}\}.
+\]
+Then, a stochastic process that follows the Markov property is called a \textit{Markov process}.
+
+\begin{definition}[Discrete-Parameter Markov Chain]
+    Let $\{X_n, n = 0, 1, \dots\}$ be a stochastic process that takes on a finite or countable number of possible values. Suppose that 
+    \[
+        \mathrm{P}\{X_{n+1} = j | X_{n} = i, X_{n-1} = i_{n-1}, \dots, X_{1} = i_{1}, X_{0} = i_{0}\} = \mathrm{P}\{X_{n+1} = j | X_{n} = i\}
+    \]
+    for all states $i_0, i_i, \dots, i, j$ and all $n \geq 0$, then stochastic process $\{X_n, n = 0, 1, \dots\}$ is known as a discrete-parameter Markov chain (DPMC). In addition, if $\mathrm{P}\{X_{n+1} = j | X_{n} = i\} = p_{ij}$ for any $n \geq 0$, it is a homogeneous DPMC.
+\end{definition}
+
+In homogeneous DPMC, $p_{ij}$ represents the probability that the process will when in state $i$, next make a transition into state $j$, which is call \textit{one-step transition probability}. Let $\mathbf{P}$ denote the matrix of $p_{ij}$, so that the \textit{transition probability matrix} is 
+\[
+    P=
+    \begin{bmatrix}
+    p_{00} & p_{01} & p_{02} & \cdots \\
+    p_{10} & p_{11} & p_{12} & \cdots \\
+    \vdots & \vdots & \vdots & \vdots \\
+    p_{i0} & p_{i1} & p_{i2} & \cdots \\
+    \vdots & \vdots & \ddots & \vdots
+    \end{bmatrix},
+\]
+where $0 \leq p_{ij} \leq 1$ and $\sum_{j} p_{ij} = 1$ for all $i$.
+
+Define the $n$-step transition probability $p_{ij}(n)$ as 
+\[
+    p_{ij}(n) = \mathrm{P}\{X_{n+k} = j | X_k = i\}, \quad n \geq 0, i,j \geq 0.
+\]
+
+\begin{theorem}[Chapman-Kolmogorov Equations]
+    The \textit{Chapman-Kolmogorov Equations} are 
+    \begin{equation}
+        p_{ij}(n+m) = \sum\limits_{k=0}^{\infty} p_{ik}{(n)}p_{kj}{(m)} \quad \forall n,m \ge 0, \forall i,j.
+    \end{equation} 
+\end{theorem}
+
+\begin{proof}
+    \[
+        \begin{aligned}
+            p_{ij}(n+m) = &  \mathrm{P}\{X_{n+m} = j | X_0 = i\} \qquad && \leftarrow \text{Definition} \\
+            & = \sum_{k = 0}^{\infty} \mathrm{P}\{X_{n+m} = j, X_n = k | X_0 = i\} \qquad && \leftarrow \text{Law of total probability} \\
+            & = \sum_{k = 0}^{\infty} \mathrm{P}\{X_{n+m} = j | X_n = k, X_0 = i\} \mathrm{P}\{X_n = k | X_0 = i\} \qquad && \leftarrow \text{Conditional probability}  \\
+            & = \sum_{k = 0}^{\infty} \mathrm{P}\{X_{n+m} = j | X_n = k\} \mathrm{P}\{X_n = k | X_0 = i\} \qquad && \leftarrow \text{Markov property} \\
+            & = \sum\limits_{k=0}^{\infty} p_{ik}{(n)}p_{kj}{(m)}.
+        \end{aligned}    
+    \] 
+\end{proof}
+
+If we let $\mathbf{P}(n)$ denote the matrix of $n$-step transition probability $p_{ij}(n+m)$, then 
+\begin{equation}
+    \mathbf{P}(n+m) = \mathbf{P}(n) \cdot \mathbf{P}(m),
+\end{equation} 
+in particular,
+\[
+    \mathbf{P}(2) = \mathbf{P}^{2} \qquad \mathbf{P}(n) = \mathbf{P}^{n}.
+\]
+
+\begin{remark}
+    The matrix of $n$-step transition probabilities is obtained by multiplying the matrix of one-step transition probabilities by itself $n-1$ times.
+\end{remark}
+
+Let $p_i(n)$ denote the probability that a Markov chain is in state $i$ at time $m$, i.e.,
+\[
+    p_i(n) = \mathrm{P} \left\{X_n = i\right\}.
+\]
+In vector notation, let $\bm{p}(n) = (p_1(n), p_2(n), \dots, p_i(n), \dots)$. 
+
+The state probabilities at any time step $n$ can be obtained from a knowledge of the initial probability distribution and the matrix of transition probabilities. From the theorem of total probability,
+\[
+    p_i(n) = \sum_{\text{all } k} p_k(0) \mathrm{P}\{X_n = i | X_0 = k\} = \sum_{\text{all } k} p_k(0) p_{ki}(n),
+\]
+writing in matrix form becomes
+\[
+    \bm{p}(n) = \bm{p}(0) \mathbf{P}(n) = \bm{p}(0) \mathbf{P}^{n},
+\]
+where $\bm{p}(0)$ denotes the initial state distribution.
+
+\begin{definition}[Steady-State Distribution]
+    Let $\mathbf{P}$ be the transition probability matrix of a DPMC, and let the vector $\bm{\pi}$ be a probability distribution, whose element $\pi_j$ denote the probability of being in state $j$, i.e., 
+    \[
+        0 \leq \pi_j \leq 1, \qquad \sum_{\text{all } j } \pi_j = 1.
+    \]
+    Then $\bm{\pi}$ is said to be steady-state distribution if and only if 
+    \[
+        \bm{\pi} \mathbf{P} = \bm{\pi}.
+    \]
+\end{definition} 
+
+\begin{remark}[Steady-State Distribution \& Eigenproblem]
+    Recall the eigenvalue problem
+    \[
+        \mathbf{A}\bm{x}=\lambda\bm{x},
+    \] 
+    where $\lambda$ is an eigenvalue of $\mathbf{A}$ and $\bm{x}$ is the corresponding right eigenvector.
+
+    Since a steady-state distribution satisfies
+    \[
+        \bm{\pi}\mathbf{P}=\bm{\pi},
+    \] 
+    $\bm{\pi}$ is a left eigenvector of $\mathbf{P}$ associated with the eigenvalue $\lambda=1$.
+
+    Equivalently,
+    \[
+        \mathbf{P}^{\top}\bm{\pi}^{\top} = \bm{\pi}^{\top}.
+    \]
+    Thus, the stationary distribution can be computed by solving
+    \begin{equation}
+    \left\{
+    \begin{aligned}
+        \bm{\pi}\mathbf{P} &= \bm{\pi}, \\
+        \bm{\pi}\bm{e} &= 1.
+    \end{aligned}
+    \right.        
+    \end{equation} 
+    where $\bm{e}$ is the vector of ones.
+\end{remark}
+
+Define $f_{ij}(n)$ for $i \ne j$ as the probability that, starting from state $i$, the first passage to state $j$ occurs in exactly $n$ steps 
+\[ 
+    f_{ij}(n) = P\{X_n = j , X_k \ne j , k = 1, \dots, n -1 | X_0 = i\}, \qquad n = 1, 2, \dots.
+\]
+
+\begin{proposition}[Relationship between $f_{ij}(n)$ and $p_{ij}(n)$]
+    \label{proposition-1-1}
+    For $i \ne j$,
+    \begin{equation}
+        \label{eq-01-04}
+        f_{ij}(n) = p_{ij}(n) - \sum_{l = 1}^{n-1} f_{ij}(l) p_{ij}(n-l).
+    \end{equation}
+    When $i=j$,
+    \begin{equation}
+        f_{ii}(n) = p_{ii}(n) - \sum_{l = 1}^{n-1} f_{ii}(l) p_{ii}(n-l).
+    \end{equation}
+\end{proposition} 
+\begin{proof}
+    If the chain is in state $j$ at step $n$, then the first visit to state $j$ must occur at some step $\ell \le n$. If the first visit occurs at step $\ell$, then the probability of this event is $f_{ij}(\ell)$. After reaching state $j$, the probability of being in state $j$ again after the remaining $n-\ell$ steps is
+    $p_{jj}(n-\ell)$. Therefore,
+    \[
+        \begin{aligned}
+            p_{ij}(1)
+            &= f_{ij}(1), \\
+            p_{ij}(2)
+            &= f_{ij}(1)p_{jj}(1) + f_{ij}(2), \\
+            p_{ij}(3)
+            &= f_{ij}(1)p_{jj}(2)
+            + f_{ij}(2)p_{jj}(1)
+            + f_{ij}(3), \\
+            &\vdots \\
+            p_{ij}(n)
+            &= f_{ij}(n)
+            + \sum_{\ell=1}^{n-1}
+            f_{ij}(\ell)p_{jj}(n-\ell).
+        \end{aligned}
+    \]
+    Rearranging gives
+    \[
+        f_{ij}(n)
+        =
+        p_{ij}(n)
+        -
+        \sum_{\ell=1}^{n-1}
+        f_{ij}(\ell)p_{jj}(n-\ell).
+    \]
+
+    The case $i=j$ follows analogously.
+\end{proof}
+
+Proposition \ref{proposition-1-1} essentially gives the following relationship:
+\[
+\begin{aligned}
+    \text{Being in state } j \text{ at step } n = \sum_{\ell=1}^{n} \left( \text{first reaching } j \text{ at step } \ell \right) \times
+    \left( \text{being in } j \text{ again after the remaining } n-\ell \text{ steps} \right),
+\end{aligned}
+\]
+and it also gives a recursive way to compute $f_{ij}(n)$ based on $p_{ij}(n)$.
+
+\begin{remark}[How to Calculate $p_{ij}(n)$ and $f_{ij}(n)$]
+    Use CK equation in matrix form for $p_{ij}(n)$, and then use the recursive equation \eqref{eq-01-04} for $f_{ij}(n)$.
+\end{remark}
+
+Let 
+\[
+    T_j = \min\{n \geq 1: X_n = j\}
+\]
+be the first return time to $j$. Then, we can define the mean recurrence time $m_{jj}$ of state $j$ as 
+\[
+    m_{jj} = \mathbb{E}[\text{Recurrence time}] = \mathbb{E}[T_j] = \sum_{n = 1}^{\infty} n f_{jj}(T_j = n) = \sum_{n = 1}^{\infty} n f_{jj}(n),
+\]
+which is the average number of steps taken to return to state $j$ for the first time after leaving it. Similarly, for $i \ne j$, we can define the mean first passage time
+\[
+    m_{ij} = \sum_{n = 1}^{\infty} n f_{ij}(n).
+\]
+The $m_{ij}$ uniquely satisfy
+\[
+    m_{ij} = f_{ij}(1) + \sum_{k \ne j} p_{ik} (1 + m_{kj}) = 1 + \sum_{k \ne j}p_{ik}m_{kj},
+\]
+since the process in state $i$ either goes to state $j$ in one step with probability $p_{ij}$, or goes first to some intermediate state $k$ in one step with probability $p_{ik}$ and then eventually on to $j$ in an additional $m_{kj}$ steps.
+
+Define $q_{ij}(m)$ as the probability that, starting from state $i$, state $j$ is reached for the first time within $m$ steps
+\[
+    q_{ij}(m) = \sum_{n=1}^{m} f_{ij}(n).
+\]
+Equivalently,
+\[
+    q_{ij}(m) = P\{T_j \leq m \mid X_0=i\},
+\]
+where $T_j$ denotes the first passage time to state $j$. Since $q_{ij}(m)$ is the cumulative probability associated with the first passage probabilities $f_{ij}(n)$,
+\[
+    f_{ij}(m) = q_{ij}(m)-q_{ij}(m-1).
+\]
+
+Letting $m\to\infty$, we define
+\[
+    f_{ij}=\sum_{n=1}^{\infty} f_{ij}(n)=\lim_{m\to\infty} q_{ij}(m),
+\]
+which is the probability that state $j$ is ever reached from state $i$. When $i=j$,
+\[
+    f_{jj}=\sum_{n=1}^{\infty} f_{jj}(n)=\lim_{m\to\infty}q_{jj}(m),
+\]
+which is the probability that, starting from state $j$, the process eventually returns to state $j$.
+
+\begin{proposition}[Relationship among $p_{ij}(n)$, $f_{ij}(n)$, and $q_{ij}(n)$]
+    For $i \ne j$ and $n \geq 1$
+    \[
+        q_{ij}(n) \geq p_{ij}(n) \geq f_{ij}(n).
+    \]
+\end{proposition}
+\begin{proof}
+    We prove this directly from the definitions. Recall that
+    \[
+        \begin{aligned}
+            p_{ij}(n)
+            &= P(X_n = j \mid X_0 = i), \\
+            f_{ij}(n)
+            &= P(X_n = j,\ X_k \neq j,\ k=1,\dots,n-1 \mid X_0 = i), \\
+            q_{ij}(n)
+            &= P\left(\min\{m : X_m = j\} \leq n \mid X_0 = i\right).
+        \end{aligned}
+    \]
+
+    First, split $q_{ij}(n)$ according to whether the first visit to $j$
+    occurs before time $n$ or exactly at time $n$:
+    \[ 
+        q_{ij}(n) = P\left(\min\{m : X_m=j\}\leq n-1 \mid X_0=i\right) + \underbrace{P\left(\min\{m : X_m=j\}=n \mid X_0=i\right)}_{f_{ij}(n)}. 
+    \]
+
+    Next, split $p_{ij}(n)$ according to whether the chain visits $j$
+    for the first time at time $n$, or has already visited $j$ by time
+    $n-1$:
+    \[ 
+        p_{ij}(n) = P(X_n=j \mid X_0=i) = \underbrace{P\left(\min\{m : X_m=j\}=n \mid X_0=i\right)}_{f_{ij}(n)} + P\left(\min\{m : X_m=j\}\leq n-1,\ X_n=j \mid X_0=i\right). 
+    \]
+
+    Since
+    \[
+        \left\{
+            \min\{m : X_m=j\}\leq n-1,\ X_n=j
+        \right\}
+        \subseteq
+        \left\{
+            \min\{m : X_m=j\}\leq n-1
+        \right\},
+    \]
+    we have
+    \[
+        P\left(
+            \min\{m : X_m=j\}\leq n-1,\ X_n=j
+            \mid X_0=i
+        \right)
+        \leq
+        P\left(
+            \min\{m : X_m=j\}\leq n-1
+            \mid X_0=i
+        \right).
+    \]
+
+    Therefore, comparing the two decompositions above gives
+    \[
+        p_{ij}(n) \leq q_{ij}(n).
+    \]
+
+    Also, from
+    \[
+        p_{ij}(n)
+        =
+        f_{ij}(n)
+        +
+        P\left(
+            \min\{m : X_m=j\}\leq n-1,\ X_n=j
+            \mid X_0=i
+        \right),
+    \]
+    and the nonnegativity of probability, we obtain
+    \[
+        p_{ij}(n) \geq f_{ij}(n).
+    \]
+
+    Hence,
+    \[
+        q_{ij}(n) \geq p_{ij}(n) \geq f_{ij}(n).
+    \]
+\end{proof}
+
+Let 
+\[
+    L_j = \min \{n \geq 1 : X_n \ne j\}
+\]
+be starting from state $j$, the number of steps until the process first leaves state $j$. Then, we can define the mean occupation time $l_{jj}$ of state $j$ as
+\[ 
+    l_{jj} = \mathbb{E}[\text{Occupation time}] = \mathbb{E}[L_j] = \sum_{n = 1}^{\infty} n p_{jj}^{n-1}(1-p_{jj}) = \frac{1}{1-p_{ii}}. 
+\]
+
+\begin{proposition}[Closed-Form Expression of Mean Occupation Time]
+    The closed-form of mean occupation time of state $j$ is
+    \[
+        l_{jj}=\mathbb{E}[L_j]=\frac{1}{1-p_{jj}}.
+    \]
+\end{proposition}
+
+\begin{proof}
+    Note that $L_{j} \sim \mathrm{Geom}(1 - p_{jj})$ and 
+    \[
+        \sum_{n=0}^{\infty}x^n = \frac{1}{1-x}, \quad |x|<1.
+    \]
+    Differentiate both sides with respect to $x$ to obtain
+    \[
+        \sum_{n=1}^{\infty} n x^{n-1}=\frac{1}{(1-x)^2}.
+    \]
+    Letting $x=p_{jj}$,
+    \[
+        \sum_{n=1}^{\infty}n p_{jj}^{\,n-1}=\frac{1}{(1-p_{jj})^2}.
+    \]
+    Therefore,
+    \[ 
+        l_{jj}=\sum_{n=1}^{\infty}n p_{jj}^{\,n-1}(1-p_{jj}) =(1-p_{jj})\sum_{n=1}^{\infty}n p_{jj}^{n-1} =(1-p_{jj})\frac{1}{(1-p_{jj})^2} =\frac{1}{1-p_{jj}}. 
+    \]
+\end{proof}
+
+
+
+
+\end{document}
