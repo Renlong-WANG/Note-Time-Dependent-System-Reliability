@@ -84,45 +84,79 @@
 \fancyfoot[C]{\thepage}
 \fancyhead[LO]{\nouppercase{\rightmark}}
 \fancyhead[RE]{\nouppercase{\leftmark}}
-\fancyhead[LE,RO]{Renlong Wang} 
+\fancyhead[LE,RO]{Renlong Wang \includegraphics[height=12pt]{logo}} 
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
-
-\newcommand{\Cee}{\mathbb{E}}
-\newcommand{\Cr}{\mathbb{R}}
-\newcommand{\la}{\langle}
-\newcommand{\ra}{\rangle}
-\newcommand{\Psds}{\mathbb{S}_{+}^{n}}
-\newcommand{\Pds}{\mathbb{S}_{++}^{n}}
-\newcommand{\Nsds}{\mathbb{S}_{-}^{n}}
-\newcommand{\Nds}{\mathbb{S}_{--}^{n}}
-
-\newcommand{\Adj}[1]{\mathrm{adj} #1}
-\newcommand{\Ker}[1]{\mathrm{ker} #1}
-\newcommand{\im}[1]{\mathrm{im} #1}
-\newcommand{\Lop}[1]{\mathcal{L}(#1)}
-\newcommand{\Dom}[1]{\mathrm{dom} (#1)}
-\newcommand{\Epi}[1]{\mathrm{epi} (#1)}
-\newcommand{\Lev}[2]{\mathrm{lev}_{\leq #1} (#2)}
-\newcommand{\Cl}[1]{\mathrm{cl} (#1)}
 
 
 \begin{document}
 
 \begin{titlepage}
     \centering
+    \thispagestyle{empty}
 
-    \HRule{1.5pt} \\ [1em]
-    {\huge\bfseries{Time-Dependent System Reliability}} \\ 
-    \HRule{1.5pt} \\
+    % ---------- Top rule ----------
+    \vspace*{1.8cm}
 
+    {\color{blue!45!black}
+     \rule{\textwidth}{1.1pt}}
+
+    \vspace{1cm}
+
+    % ---------- Title ----------
+    {\fontsize{28pt}{34pt}\selectfont
+     \bfseries
+     Time-Dependent System Reliability
+     \par}
+
+    \vspace{0.7cm}
+
+    % ---------- Subtitle ----------
+    {\fontsize{20pt}{25pt}\selectfont
+     \color{black!65}
+     \textsc{Course Notes}
+     \par}
+
+    \vspace{1cm}
+
+    % ---------- Short accent rule ----------
+    {\color{blue!45!black}
+     \rule{\textwidth}{1.1pt}}
+
+    % ---------- Flexible space ----------
     \vfill
-    \vspace*{0.5cm}
-    {\Large Renlong Wang} \\  [0.25em]
 
-    Ph.D. Student \\
-    Department of Civil and Environmental Engineering, Rice University
+    % Move author block slightly upward
+    \vspace{-1.0cm}
+
+    % ---------- Author ----------
+    {\fontsize{17pt}{21pt}\selectfont
+     \bfseries
+     Renlong Wang
+     \par}
+
+    \vspace{0.45cm}
+
+    {\fontsize{12pt}{15pt}\selectfont
+     Ph.D. Student
+     \par}
+
+    \vspace{0.3cm}
+
+    {\fontsize{11pt}{14pt}\selectfont
+     Department of Civil and Environmental Engineering\\[0.12cm]
+     Rice University
+     \par}
+
+    \vspace{1.7cm}
+
+    % ---------- Bottom rule ----------
+    {\color{blue!45!black}
+     \rule{\textwidth}{1.1pt}}
+
+    \vspace*{0.8cm}
+
 \end{titlepage}
 
 
@@ -132,10 +166,9 @@
 \tableofcontents
 \newpage
 
-\subfile{subfile/Markov Chain/1. Discrete Parameter Markov Chain.tex} 
+% \subfile{subfile/Preliminary/Preliminary.tex} 
 
-% \subfile{subfile/Bayesian Regression/0. Bayesian Regression.tex}
+\subfile{subfile/Discrete Parameter Markov Chain/Discrete Parameter Markov Chain.tex} 
 
-% \subfile{subfile/Bayesian Filter/0. Bayesian Filter.tex}
 
 \end{document}
