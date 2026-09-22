@@ -250,12 +250,9 @@ which is the probability that, starting from state $j$, the process eventually r
     We prove this directly from the definitions. Recall that
     \[
         \begin{aligned}
-            p_{ij}(n)
-            &= P(X_n = j \mid X_0 = i), \\
-            f_{ij}(n)
-            &= P(X_n = j,\ X_k \neq j,\ k=1,\dots,n-1 \mid X_0 = i), \\
-            q_{ij}(n)
-            &= P\left(\min\{m : X_m = j\} \leq n \mid X_0 = i\right).
+            p_{ij}(n) &= P(X_n = j \mid X_0 = i), \\
+            f_{ij}(n) &= P(X_n = j,\ X_k \neq j,\ k=1,\dots,n-1 \mid X_0 = i), \\
+            q_{ij}(n) &= P\left(\min\{m : X_m = j\} \leq n \mid X_0 = i\right).
         \end{aligned}
     \]
 
@@ -274,25 +271,14 @@ which is the probability that, starting from state $j$, the process eventually r
 
     Since
     \[
-        \left\{
-            \min\{m : X_m=j\}\leq n-1,\ X_n=j
-        \right\}
+        \left\{ \min\{m : X_m=j\}\leq n-1, X_n=j \right\} 
         \subseteq
-        \left\{
-            \min\{m : X_m=j\}\leq n-1
-        \right\},
+        \left\{ \min\{m : X_m=j\}\leq n-1 \right\},
     \]
     we have
     \[
-        P\left(
-            \min\{m : X_m=j\}\leq n-1,\ X_n=j
-            \mid X_0=i
-        \right)
-        \leq
-        P\left(
-            \min\{m : X_m=j\}\leq n-1
-            \mid X_0=i
-        \right).
+        P\left(\min\{m : X_m=j\}\leq n-1, X_n=j \mid X_0=i \right) \leq
+        P\left(\min\{m : X_m=j\}\leq n-1 \mid X_0=i \right).
     \]
 
     Therefore, comparing the two decompositions above gives
@@ -302,14 +288,7 @@ which is the probability that, starting from state $j$, the process eventually r
 
     Also, from
     \[
-        p_{ij}(n)
-        =
-        f_{ij}(n)
-        +
-        P\left(
-            \min\{m : X_m=j\}\leq n-1,\ X_n=j
-            \mid X_0=i
-        \right),
+        p_{ij}(n) = f_{ij}(n) + P\left( \min\{m : X_m=j\}\leq n-1, X_n=j \mid X_0=i \right),
     \]
     and the nonnegativity of probability, we obtain
     \[
