@@ -5,7 +5,10 @@
 
 \chapter{Discrete Parameter Markov Chain} 
 
-\begin{definition}[Stochastic Process]
+
+\section{Introduction}
+
+\begin{definition}[Stochastic process]
     A stochastic process $\bm{X} = \{X(t), t \in \mathcal{T}\}$ is a collection of random variables. That is, for each $t$ in the index set $\mathcal{T}$, $X(t)$ is a random variable.
 \end{definition}
 
@@ -22,7 +25,7 @@ Thus, a stochastic process is a family of random variables that describes the sy
 \]
 Then, a stochastic process that follows the Markov property is called a \textit{Markov process}.
 
-\begin{definition}[Discrete-Parameter Markov Chain]
+\begin{definition}[Discrete-parameter markov chain]
     Let $\{X_n, n = 0, 1, \dots\}$ be a stochastic process that takes on a finite or countable number of possible values. Suppose that 
     \[
         \mathrm{P}\{X_{n+1} = j | X_{n} = i, X_{n-1} = i_{n-1}, \dots, X_{1} = i_{1}, X_{0} = i_{0}\} = \mathrm{P}\{X_{n+1} = j | X_{n} = i\}
@@ -43,12 +46,15 @@ In homogeneous DPMC, $p_{ij}$ represents the probability that the process will w
 \]
 where $0 \leq p_{ij} \leq 1$ and $\sum_{j} p_{ij} = 1$ for all $i$.
 
-Define the $n$-step transition probability $p_{ij}(n)$ as 
-\[
-    p_{ij}(n) = \mathrm{P}\{X_{n+k} = j | X_k = i\}, \quad n \geq 0, i,j \geq 0.
-\]
 
-\begin{theorem}[Chapman-Kolmogorov Equations]
+\section{Chapman-Kolmogorov Equations and Probability Distributions}
+
+Define the $n$-step transition probability $p_{ij}(n)$ as 
+\begin{equation}
+    p_{ij}(n) = \mathrm{P}\{X_{n+k} = j | X_k = i\}, \quad n \geq 0, i,j \geq 0.
+\end{equation} 
+
+\begin{theorem}[Chapman-Kolmogorov equations]
     The \textit{Chapman-Kolmogorov Equations} are 
     \begin{equation}
         p_{ij}(n+m) = \sum\limits_{k=0}^{\infty} p_{ik}{(n)}p_{kj}{(m)} \quad \forall n,m \ge 0, \forall i,j.
@@ -87,27 +93,27 @@ Let $p_i(n)$ denote the probability that a Markov chain is in state $i$ at time 
 In vector notation, let $\bm{p}(n) = (p_1(n), p_2(n), \dots, p_i(n), \dots)$. 
 
 The state probabilities at any time step $n$ can be obtained from a knowledge of the initial probability distribution and the matrix of transition probabilities. From the theorem of total probability,
-\[
+\begin{equation}
     p_i(n) = \sum_{\text{all } k} p_k(0) \mathrm{P}\{X_n = i | X_0 = k\} = \sum_{\text{all } k} p_k(0) p_{ki}(n),
-\]
+\end{equation} 
 writing in matrix form becomes
-\[
+\begin{equation}
     \bm{p}(n) = \bm{p}(0) \mathbf{P}(n) = \bm{p}(0) \mathbf{P}^{n},
-\]
+\end{equation} 
 where $\bm{p}(0)$ denotes the initial state distribution.
 
-\begin{definition}[Steady-State Distribution]
+\begin{definition}[Steady-state distribution]
     Let $\mathbf{P}$ be the transition probability matrix of a DPMC, and let the vector $\bm{\pi}$ be a probability distribution, whose element $\pi_j$ denote the probability of being in state $j$, i.e., 
     \[
         0 \leq \pi_j \leq 1, \qquad \sum_{\text{all } j } \pi_j = 1.
     \]
     Then $\bm{\pi}$ is said to be steady-state distribution if and only if 
-    \[
+    \begin{equation}
         \bm{\pi} \mathbf{P} = \bm{\pi}.
-    \]
+    \end{equation} 
 \end{definition} 
 
-\begin{remark}[Steady-State Distribution \& Eigenproblem]
+\begin{remark}[Steady-state distribution $\bm{\pi}$ and eigenproblem]
     Recall the eigenvalue problem
     \[
         \mathbf{A}\bm{x}=\lambda\bm{x},
@@ -136,17 +142,23 @@ where $\bm{p}(0)$ denotes the initial state distribution.
     where $\bm{e}$ is the vector of ones.
 \end{remark}
 
-Define $f_{ij}(n)$ for $i \ne j$ as the probability that, starting from state $i$, the first passage to state $j$ occurs in exactly $n$ steps 
-\[ 
-    f_{ij}(n) = P\{X_n = j , X_k \ne j , k = 1, \dots, n -1 | X_0 = i\}, \qquad n = 1, 2, \dots.
-\]
+\section{First Passage and Recurrence}
 
-\begin{proposition}[Relationship between $f_{ij}(n)$ and $p_{ij}(n)$]
+Define $f_{ij}(n)$ for $i \ne j$ as the probability that, starting from state $i$, the first passage to state $j$ occurs in exactly $n$ steps 
+\begin{equation}
+    f_{ij}(n) = P\{X_n = j , X_k \ne j , k = 1, \dots, n -1 | X_0 = i\}, \qquad n = 1, 2, \dots.
+\end{equation} 
+% and $f_{jj}$ as the probability of ever returning to state $j$
+% \begin{equation}
+%     f_{jj} = \sum_{n = 1}^{\infty} f_{ij}(n).
+% \end{equation} 
+
+\begin{proposition}[Relationship between $n$-step first-passage probability $f_{ij}(n)$ and $n$-step transition probability $p_{ij}(n)$]
     \label{proposition-1-1}
     For $i \ne j$,
     \begin{equation}
         \label{eq-01-04}
-        f_{ij}(n) = p_{ij}(n) - \sum_{l = 1}^{n-1} f_{ij}(l) p_{ij}(n-l).
+        f_{ij}(n) = p_{ij}(n) - \sum_{l = 1}^{n-1} f_{ij}(l) p_{jj}(n-l).
     \end{equation}
     When $i=j$,
     \begin{equation}
@@ -195,7 +207,7 @@ Proposition \ref{proposition-1-1} essentially gives the following relationship:
 \]
 and it also gives a recursive way to compute $f_{ij}(n)$ based on $p_{ij}(n)$.
 
-\begin{remark}[How to Calculate $p_{ij}(n)$ and $f_{ij}(n)$]
+\begin{remark}[How to Calculate $n$-step transition probability $p_{ij}(n)$ and $n$-step first-passage probability $f_{ij}(n)$]
     Use CK equation in matrix form for $p_{ij}(n)$, and then use the recursive equation \eqref{eq-01-04} for $f_{ij}(n)$.
 \end{remark}
 
@@ -204,40 +216,77 @@ Let
     T_j = \min\{n \geq 1: X_n = j\}
 \]
 be the first return time to $j$. Then, we can define the mean recurrence time $m_{jj}$ of state $j$ as 
-\[
-    m_{jj} = \mathbb{E}[\text{Recurrence time}] = \mathbb{E}[T_j] = \sum_{n = 1}^{\infty} n f_{jj}(T_j = n) = \sum_{n = 1}^{\infty} n f_{jj}(n),
-\]
+\begin{equation}
+    m_{jj} = \mathbb{E}[T_j] = \sum_{n = 1}^{\infty} n f_{jj}(n),
+\end{equation} 
 which is the average number of steps taken to return to state $j$ for the first time after leaving it. Similarly, for $i \ne j$, we can define the mean first passage time
-\[
+\begin{equation}
     m_{ij} = \sum_{n = 1}^{\infty} n f_{ij}(n).
-\]
+\end{equation} 
 The $m_{ij}$ uniquely satisfy
-\[
+\begin{equation}
     m_{ij} = f_{ij}(1) + \sum_{k \ne j} p_{ik} (1 + m_{kj}) = 1 + \sum_{k \ne j}p_{ik}m_{kj},
+\end{equation} 
+since the process in state $i$ either goes to state $j$ in one step with probability $p_{ij}$, or goes first to some intermediate state $k$ in one step with probability $p_{ik}$ and then eventually on to $j$ in an additional $m_{kj}$ steps. Letting $\mathbf{E}$ denote a square matrix whose elements are all equal to 1, $\mathbf{M} = [m_{ij}]$, and $\mathrm{diag}\{\mathbf{M}\}$ be the diagonal matrix whose $i$-th diagonal element is $m_ii$, it follows that 
+\[
+    m_{ij} = 1 + \sum_{k \ne j}p_{ik}m_{kj} = 1 + \sum_{k}p_{ik}m_{kj} - p_{ij}m_{jj},
 \]
-since the process in state $i$ either goes to state $j$ in one step with probability $p_{ij}$, or goes first to some intermediate state $k$ in one step with probability $p_{ik}$ and then eventually on to $j$ in an additional $m_{kj}$ steps.
+can be written into matrix form as
+\begin{equation}
+    \label{eq-1-15}
+    \mathbf{M} = \mathbf{E} + \mathbf{P}(\mathbf{M} - \mathrm{diag}\{\mathbf{M}\}).
+\end{equation}
+
+\begin{proposition}[Relationship between mean recurrence time $m_{jj}$ and steady-state probability $\pi_j$]
+    The steady-state probability $\pi_{j}$ can be given by
+    \begin{equation}
+        \label{eq-1-16}
+        \pi_{j} = \frac{1}{m_{jj}}.
+    \end{equation} 
+\end{proposition}
+\begin{proof}
+    multiplying both sides of \eqref{eq-1-15} by the vector $\bm{\pi}$ and observing that $\bm{\pi} \mathbf{P} = \bm{\pi}$. We get 
+    \[
+    \begin{aligned}
+        \bm{\pi} \mathbf{M} & = \bm{\pi} \mathbf{E} + \bm{\pi} \mathbf{P}(\mathbf{M} - \mathrm{diag}\{\mathbf{M}\}) \\
+        \Leftrightarrow  
+        \bm{\pi} \mathbf{M} & = \bm{\pi}\bm{e}\bm{e}^{\top} + \bm{\pi} \mathbf{P}(\mathbf{M} - \mathrm{diag}\{\mathbf{M}\}) \\
+        \Leftrightarrow 
+        \bm{\pi} \mathbf{M} & = \bm{e}^{\top} + \bm{\pi} \mathbf{P}(\mathbf{M} - \mathrm{diag}\{\mathbf{M}\}) \\
+        \Leftrightarrow
+        \bm{\pi} \mathbf{M} & = \bm{e}^{\top} + \bm{\pi} (\mathbf{M} - \mathrm{diag}\{\mathbf{M}\}) \\
+        \Leftrightarrow
+        \bm{\pi} \mathbf{M} & = \bm{e}^{\top} + \bm{\pi} \mathbf{M} - \bm{\pi} \mathrm{diag}\{\mathbf{M}\}.
+    \end{aligned}
+    \] 
+    Thus, we have 
+    \[
+        \bm{\pi} \mathrm{diag}\{\mathbf{M}\} = \bm{e}^{\top},
+    \]
+    which gives the result in \eqref{eq-1-16}.
+\end{proof}
 
 Define $q_{ij}(m)$ as the probability that, starting from state $i$, state $j$ is reached for the first time within $m$ steps
-\[
+\begin{equation}
     q_{ij}(m) = \sum_{n=1}^{m} f_{ij}(n).
-\]
+\end{equation} 
 Equivalently,
 \[
     q_{ij}(m) = P\{T_j \leq m \mid X_0=i\},
 \]
 where $T_j$ denotes the first passage time to state $j$. Since $q_{ij}(m)$ is the cumulative probability associated with the first passage probabilities $f_{ij}(n)$,
-\[
+\begin{equation}
     f_{ij}(m) = q_{ij}(m)-q_{ij}(m-1).
-\]
+\end{equation} 
 
 Letting $m\to\infty$, we define
-\[
+\begin{equation}
     f_{ij}=\sum_{n=1}^{\infty} f_{ij}(n)=\lim_{m\to\infty} q_{ij}(m),
-\]
+\end{equation} 
 which is the probability that state $j$ is ever reached from state $i$. When $i=j$,
-\[
+\begin{equation}
     f_{jj}=\sum_{n=1}^{\infty} f_{jj}(n)=\lim_{m\to\infty}q_{jj}(m),
-\]
+\end{equation} 
 which is the probability that, starting from state $j$, the process eventually returns to state $j$.
 
 \begin{proposition}[Relationship among $p_{ij}(n)$, $f_{ij}(n)$, and $q_{ij}(n)$]
@@ -306,15 +355,15 @@ Let
     L_j = \min \{n \geq 1 : X_n \ne j\}
 \]
 be starting from state $j$, the number of steps until the process first leaves state $j$. Then, we can define the mean occupation time $l_{jj}$ of state $j$ as
-\[ 
-    l_{jj} = \mathbb{E}[\text{Occupation time}] = \mathbb{E}[L_j] = \sum_{n = 1}^{\infty} n p_{jj}^{n-1}(1-p_{jj}) = \frac{1}{1-p_{ii}}. 
-\]
+\begin{equation}
+    l_{jj} = \mathbb{E}[L_j] = \sum_{n = 1}^{\infty} n p_{jj}^{n-1}(1-p_{jj}). 
+\end{equation} 
 
-\begin{proposition}[Closed-Form Expression of Mean Occupation Time]
-    The closed-form of mean occupation time of state $j$ is
-    \[
+\begin{proposition}[Simplified Expression of Mean Occupation Time]
+    The simplified expression of mean occupation time of state $j$ is
+    \begin{equation}
         l_{jj}=\mathbb{E}[L_j]=\frac{1}{1-p_{jj}}.
-    \]
+    \end{equation} 
 \end{proposition}
 
 \begin{proof}
@@ -337,6 +386,57 @@ be starting from state $j$, the number of steps until the process first leaves s
 \end{proof}
 
 
+\section{Classification of States}
+
+We now classify states using the first-passage and recurrence probabilities introduced in the previous section. We distinguish between states that are \textit{recurrent}, meaning that the Markov chain is guaranteed to return to these states infiniely often, and states that are \textit{transient} meaning that there is a nonzero probability that the Markov chain will never return to such a state. 
+
+\begin{definition}
+    State $j$ is said to be recurrent if $f_{jj} = 1$, and transient otherwise. 
+\end{definition}
+
+Thus, a recurrent state is revisited with probability one, whereas a transient state has a positive probability of never being revisited.
+
+\begin{definition}[Absorbing state]
+    State $j$ is said to be absorbing if $p_{jj}=1$. 
+\end{definition}
+
+Once the Markov chain enters an absorbing state $j$, it remains there forever. Every absorbing state is recurrent, since $p_{jj}=1$ implies that $f_{jj}(1)=1$, and hence $f_{jj}=1$.
+
+Let $b$ be an absorbing state. Recall that $f_{jb}$ is the probability that state $b$ is ever reached from state $j$. For $j\neq b$, conditioning on the state after the first transition and using the Markov property gives
+\[
+    f_{jb}=\sum_k p_{jk}f_{kb}.
+\]
+That is, $f_{jb}$ is the weighted sum of the absorption probabilities from all possible states $k$ after the first transition, with weights $p_{jk}$. Since $f_{bb}=1$, the absorption probabilities satisfy
+\begin{equation}
+    f_{jb}=p_{jb}+\sum_{k\neq b}p_{jk}f_{kb}, \qquad j\neq b.
+\end{equation}
+If $a\neq b$ is another absorbing state, then $f_{ab}=0$.
+
+Similarly, for $j\neq b$, the mean time before absorption into state $b$ is the mean first-passage time $m_{jb}$. The general first-step equation in \eqref{eq-1-16} reduces to
+\begin{equation}
+    m_{jb}=1+\sum_{k\neq b}p_{jk}m_{kb},
+    \qquad j\neq b.
+\end{equation}
+Thus, the absorption probabilities and mean absorption times can be obtained by solving the corresponding systems of equations over the nonabsorbing states.
+
+
+\begin{remark}[Mean first-passage time by making the target state absorbing]
+    Let $k$ be a target state. To compute the mean first-passage time $m_{jk}$ for $j\neq k$, state $k$ can be temporarily made absorbing. Define a modified transition probability matrix $\mathbf{P}'=[p'_{i\ell}]$ by
+    \[
+        p'_{i\ell}
+        =
+        \begin{cases}
+            1, & i=k,\ \ell=k,\\
+            0, & i=k,\ \ell\neq k,\\
+            p_{i\ell}, & i\neq k.
+        \end{cases}
+    \]
+    Only the row corresponding to state $k$ is modified. Since the original and modified chains have identical transition probabilities before the first visit to $k$, the first-passage time to $k$ in the original chain equals the absorption time into $k$ in the modified chain. Consequently,
+    \[
+        m_{jk} =1+\sum_{i\neq k}p'_{ji}m_{ik} =1+\sum_{i\neq k}p_{ji}m_{ik}, \qquad j\neq k.
+    \]
+    Therefore, $m_{jk}$ can be computed by treating $k$ as absorbing and solving the corresponding mean-absorption-time equations. This method does not directly compute the mean recurrence time $m_{kk}$.
+\end{remark}
 
 
 \end{document}
